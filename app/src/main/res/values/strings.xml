@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Calcul</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="configure">Configure</string>
+    <string name="add_widget">Add widget</string>
+    <string name="cancel">C</string>
+    <string name="divide">÷</string>
+    <string name="back">←</string>
+    <string name="percent">%</string>
+    <string name="sqrt">√</string>
+    <string name="about">О программе</string>
+    <string name="text_about">
+        Qwerton00@gmail.com\nБуду признателен за помощь в разработке этого проекта, а так же за советы в отношении кода.\n</string>
+    <string name="author">Copyright © Alexandr Voronkov 2017</string>
+</resources>

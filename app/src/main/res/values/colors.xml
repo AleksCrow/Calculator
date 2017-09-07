@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorTextView">#eeeeee</color>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="BtnPress">#818181</color>
+    <color name="BtnNormal">#f3dbdbdb</color>
+    <color name="BtnFocus">#818181</color>
+    <color name="BtnC">#d23c3c</color>
+    <color name="BtnCPress">#942e2e</color>
+    <color name="BtnEqual">#a9fa9c</color>
+    <color name="BtnEqualPress">#6fc76f</color>
+</resources>
