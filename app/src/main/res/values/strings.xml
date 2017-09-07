@@ -8,8 +8,9 @@
     <string name="back">←</string>
     <string name="percent">%</string>
     <string name="sqrt">√</string>
+    <string name="backExit">Для выхода нажмите \"назад\" повторно</string>
     <string name="about">О программе</string>
     <string name="text_about">
         Qwerton00@gmail.com\nБуду признателен за помощь в разработке этого проекта, а так же за советы в отношении кода.\n</string>
-    <string name="author">Copyright © Alexandr Voronkov 2017</string>
+    <string name="author">Copyright © Aleksandr Voronkov 2017</string>
 </resources>

@@ -230,6 +230,7 @@ public class MainActivity extends Activity {
         return list;
     }
 
+
     public void onClickAbout(View view) {  //метод для вызова окна о программе
         FragmentAbout about = new FragmentAbout();
         about.show(getFragmentManager(), "custom");
