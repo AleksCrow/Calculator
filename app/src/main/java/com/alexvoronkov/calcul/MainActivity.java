@@ -12,19 +12,20 @@ import java.util.ArrayList;
 
 public class MainActivity extends Activity {
 
-    private static long back_pressed; //переменная для скорости нажатия кнопки назад
-    TextView resultField; // текстовое поле дл¤ вывода результата
-    TextView numberField;   // поле дл¤ ввода числа
-    String operField = "";    // для формирования операндов
-    BigDecimal operand = null;  // операнд операции
-    String lastOperation = "="; // последн¤¤ операци¤
+    private static long back_pressed;
+    TextView resultField;
+    TextView numberField;
+    String operField = "";
+    BigDecimal operand = null;
+    String lastOperation = "=";
 
+    //метод для закрытия приложения кнопкой назад
     @Override
-    public void onBackPressed() {  //метод для закрытия приложения кнопкой назад
+    public void onBackPressed() {
         if(back_pressed + 2000 > System.currentTimeMillis()){
             super.onBackPressed();
         } else {
-            Toast.makeText(getBaseContext(), "Для выхода из программы нажмите кнопку повторно", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getBaseContext(), (R.string.backExit), Toast.LENGTH_SHORT).show();
         }
         back_pressed = System.currentTimeMillis();
     }
@@ -34,7 +35,6 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // получаем все пол¤ по id из activity_main.xml
         resultField = (TextView) findViewById(R.id.resultField);
         numberField = (TextView) findViewById(R.id.numberField);
     }
@@ -43,9 +43,9 @@ public class MainActivity extends Activity {
     public void onNumberClick(View view) {
 
         Button button = (Button) view;
-        button.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP); //для вибрации при нажатии на кнопу
+        button.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
 
-        if (lastOperation.equals("=") && operand != null) {   //если последний оператор =, то очищаем поле при нажатии на следующую кнопку
+        if (lastOperation.equals("=") && operand != null) {
             numberField.setText("");
             operand = null;
         }
@@ -59,26 +59,21 @@ public class MainActivity extends Activity {
         Button button = (Button) view;
         button.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
 
-        String op = button.getText().toString();  //добавляем оператор
-        String number = operField;     //считываем второй операнд
-        // если введенно что-нибудь
-//        if (beComma(number)) {
+        String op = button.getText().toString();
+        String number = operField;
         if (number.length() > 0) {
             number = number.replace(',', '.');
             try {
-                performOperation(Double.valueOf(number), op);   //отправляем второй операнд на расчёт
+                performOperation(Double.valueOf(number), op);
             } catch (NumberFormatException ex) {
                 numberField.setText("");
             }
         }
-//        } else {
-//            Toast.makeText(this, "Неверный формат числа", Toast.LENGTH_SHORT).show();
-//        }
         lastOperation = op;
-        numberField.append(lastOperation);   //добавляем в поле ввода последний знак
+        numberField.append(lastOperation);
     }
 
-    public void onClearClick(View view) {  //очистка
+    public void onClearClick(View view) {
         Button button = (Button) view;
         button.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
 
@@ -89,33 +84,35 @@ public class MainActivity extends Activity {
         operand = null;
     }
 
-    public void onBackClick(View view) {  //метод для backspace
+    //метод для backspace
+    public void onBackClick(View view) {
         Button button = (Button) view;
-        button.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP); //для вибрации при нажатии на кнопу
+        button.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
 
-        String text = numberField.getText().toString();  //считываем данные из numberField
+        String text = numberField.getText().toString();
         if (text.length() > 0) {
-            if (text.substring(0, text.length() - 1).equals(lastOperation)) {  //проверка на наличие оператора
+            if (text.substring(0, text.length() - 1).equals(lastOperation)) {
                 lastOperation = "";
-            } else if (operField.length() > 0) {      //проверка на наличие второго операнда и отнятие у него последнего знака
+            } else if (operField.length() > 0) {
                 operField = operField.substring(0, operField.length() - 1);
                 numberField.setText(text.substring(0, text.length() - 1));
             } else {
-                numberField.setText(text.substring(0, text.length() - 1));   //просто отнимаем последний знак
+                numberField.setText(text.substring(0, text.length() - 1));
             }
-        } else if (text.length() == 0) {  //если нет знаков, то очищаем поле, чтоб не было ошибки
+        } else if (text.length() == 0) {
             numberField.setText("");
         }
     }
 
-    public void onAdditClick(View view) {  //метод для нажатия на кнопку процент
+    //метод для нажатия на кнопку процент
+    public void onAdditClick(View view) {
         Button button = (Button) view;
-        button.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY); //для вибрации при нажатии на кнопу
+        button.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 
         String lastNumber = operField;
         if (lastNumber.length() > 0){
             try {
-                lastNumber = String.valueOf(Double.parseDouble(lastNumber) / 100);   //отправляем второй операнд на расчёт в виде процентов
+                lastNumber = String.valueOf(Double.parseDouble(lastNumber) / 100);
                 percentOperation(Double.valueOf(lastNumber));
             } catch (NumberFormatException ex) {
                 numberField.setText("");
@@ -125,13 +122,14 @@ public class MainActivity extends Activity {
         numberField.append(button.getText().toString());
     }
 
-    private void percentOperation(Double number) {  //метод для расчёта процентов
+    //метод для расчёта процентов
+    private void percentOperation(Double number) {
         BigDecimal operandPercent;
         if (operand == null) {
             operand = BigDecimal.valueOf(number);
-            operandPercent = BigDecimal.valueOf(number); //если нет второго числа, то проценты берутся из первого
+            operandPercent = BigDecimal.valueOf(number);
         } else {
-            operandPercent = operand.multiply(BigDecimal.valueOf(number));  //высчитываем процент из первого числа
+            operandPercent = operand.multiply(BigDecimal.valueOf(number));
         }
         switch (lastOperation) {
             case "÷":
@@ -162,12 +160,10 @@ public class MainActivity extends Activity {
     }
 
     private void performOperation(Double number, String operation) {
-
-        // если операнд ранее не был установлен (при вводе самой первой операции)
         if (operand == null && lastOperation.equals("-")) {
             number = -number;
             operand = BigDecimal.valueOf(number);
-        } else if (operand == null && !lastOperation.equals("√") && !lastOperation.equals("-")) {  //!lastOperation.equals("√") добавлено, чтобы правильно высчитывался первый корень после запуска программы
+        } else if (operand == null && !lastOperation.equals("√") && !lastOperation.equals("-")) {
             operand = BigDecimal.valueOf(number);
         } else {
             if (lastOperation.equals("=")){
@@ -207,13 +203,14 @@ public class MainActivity extends Activity {
         operField = "";
     }
 
-    private String operType(String text) {  //дл¤ отбрасывани¤ нул¤ с точкой если целое число
+    //дл¤ отбрасывани¤ нул¤ с точкой если целое число
+    private String operType(String text) {
         String number = "";
         ArrayList<String> list = new ArrayList<>();
         for (int i = 0; i < text.length(); i++) {
             list.add(String.valueOf(text.charAt(i)));
         }
-        listContains(list);  //проверка на наличие нулей после запятой и самой запятой, отбрасывание ненужного
+        listContains(list);
         for (String x : list) {
             number += x;
         }
@@ -232,11 +229,6 @@ public class MainActivity extends Activity {
         }
         return list;
     }
-
-//    public boolean beComma(String text){
-//        Pattern p = Pattern.compile(".+[,]?");
-//        return p.matcher(text).matches();
-//    }
 
     public void onClickAbout(View view) {  //метод для вызова окна о программе
         FragmentAbout about = new FragmentAbout();
